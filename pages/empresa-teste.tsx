@@ -41,6 +41,7 @@ export default function EmpresaTeste() {
 
       alert('Denúncia enviada com sucesso! Protocolo: #' + protocolo);
       setDenuncia({
+        empresa: '',
         identificacao: 'nao',
         nome: '',
         email: '',
@@ -49,6 +50,7 @@ export default function EmpresaTeste() {
         data: '',
         local: '',
       });
+      
     } catch (error) {
       alert('Erro ao enviar denúncia. Tente novamente.');
       console.error('Erro:', error);
