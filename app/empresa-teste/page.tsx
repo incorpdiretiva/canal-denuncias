@@ -125,7 +125,7 @@ export default function CanalSeguro() {
           </button>
         </form>
 
-        <p className="mt-6 text-xs text-gray-500 text-center">Powered by InCorp Diretiva</p>
+        <p className="mt-6 text-xs text-gray-500 text-center">Desenvolvido por InCorp Diretiva</p>
       </div>
     </div>
   );
