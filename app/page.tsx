@@ -1,135 +1,159 @@
 // app/page.tsx
 
-'use client';
-import { useState } from 'react';
-import Head from 'next/head';
-import { db } from '../lib/firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+"use client";
 
-export default function CanalSeguro() {
-  const [denuncia, setDenuncia] = useState({
-    empresa: '',
-    identificacao: 'nao',
-    nome: '',
-    email: '',
-    tipo: '',
-    relato: '',
-    data: '',
-    local: '',
-  });
+import { useState } from "react";
 
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setDenuncia((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setLoading(true);
-    const protocolo = Math.floor(Math.random() * 1000000);
-
-    try {
-      await addDoc(collection(db, 'denuncias'), {
-        ...denuncia,
-        criadoEm: Timestamp.now(),
-        protocolo,
-      });
-
-      alert('Denúncia enviada com sucesso! Protocolo: #' + protocolo);
-      setDenuncia({
-        empresa: '',
-        identificacao: 'nao',
-        nome: '',
-        email: '',
-        tipo: '',
-        relato: '',
-        data: '',
-        local: '',
-      });
-    } catch (error) {
-      alert('Erro ao enviar denúncia. Tente novamente.');
-      console.error('Erro:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+export default function Home() {
+  const [empresa, setEmpresa] = useState("");
+  const [identificacao, setIdentificacao] = useState("nao");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [tipo, setTipo] = useState("");
+  const [relato, setRelato] = useState("");
+  const [data, setData] = useState("");
+  const [local, setLocal] = useState("");
+  const [confirmacao, setConfirmacao] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <Head>
-        <title>Canal Seguro Independente</title>
-      </Head>
+    <div className="min-h-screen bg-blue-50 text-gray-800 font-sans">
+      {/* HERO */}
+      <section className="bg-blue-700 text-white py-20 text-center px-6">
+        <h1 className="text-4xl font-bold mb-4">Canal Seguro de Denúncias</h1>
+        <p className="text-lg max-w-2xl mx-auto">
+          Este é um canal externo, sigiloso e independente para relatar
+          irregularidades com total segurança e anonimato.
+        </p>
+      </section>
 
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Canal Seguro de Denúncias</h1>
-        <p className="mb-6 text-sm text-gray-600">Este canal é gerenciado por entidade externa independente. Sua identidade será preservada.</p>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+      {/* COMO FUNCIONA */}
+      <section className="py-16 px-6 max-w-4xl mx-auto text-center">
+        <h2 className="text-2xl font-semibold mb-4 text-blue-800">Como funciona?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
           <div>
-            <label className="block text-sm font-medium">Empresa</label>
+            <h3 className="font-bold text-blue-600 mb-2">✅ Anonimato Garantido</h3>
+            <p>Você pode optar por não se identificar. Nenhum dado pessoal é rastreado.</p>
+          </div>
+          <div>
+            <h3 className="font-bold text-blue-600 mb-2">✅ Canal Externo</h3>
+            <p>Este canal é operado por consultoria independente, fora da estrutura da empresa.</p>
+          </div>
+          <div>
+            <h3 className="font-bold text-blue-600 mb-2">✅ Investigação Ética</h3>
+            <p>Seu relato será analisado com seriedade por especialistas em integridade corporativa.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* FORMULÁRIO */}
+      <section className="bg-white py-16 px-6" id="formulario">
+        <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8">
+          <h2 className="text-2xl font-semibold text-center text-blue-800 mb-6">
+            Envie seu relato com segurança
+          </h2>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert("Simulação de envio de denúncia.");
+            }}
+            className="space-y-4"
+          >
             <input
               type="text"
-              name="empresa"
-              value={denuncia.empresa}
-              onChange={handleChange}
-              placeholder="Nome da empresa"
-              className="w-full border p-2 rounded"
+              className="w-full border rounded p-2"
+              placeholder="Empresa"
+              value={empresa}
+              onChange={(e) => setEmpresa(e.target.value)}
               required
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Deseja se identificar?</label>
-            <select name="identificacao" value={denuncia.identificacao} onChange={handleChange} className="w-full border p-2 rounded">
-              <option value="nao">Não</option>
+            <select
+              className="w-full border rounded p-2"
+              value={identificacao}
+              onChange={(e) => setIdentificacao(e.target.value)}
+            >
+              <option value="nao">Deseja se identificar? Não</option>
               <option value="sim">Sim</option>
             </select>
-          </div>
-
-          {denuncia.identificacao === 'sim' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" name="nome" value={denuncia.nome} placeholder="Seu nome" className="border p-2 rounded w-full" onChange={handleChange} />
-              <input type="email" name="email" value={denuncia.email} placeholder="Seu e-mail" className="border p-2 rounded w-full" onChange={handleChange} />
-            </div>
-          )}
-
-          <div>
-            <label className="block text-sm font-medium">Tipo de denúncia</label>
-            <select name="tipo" value={denuncia.tipo} onChange={handleChange} className="w-full border p-2 rounded">
-              <option value="">Selecione</option>
-              <option value="assedio-moral">Assédio Moral</option>
-              <option value="assedio-sexual">Assédio Sexual</option>
-              <option value="fraude">Fraude ou Desvio</option>
-              <option value="discriminacao">Discriminação</option>
-              <option value="outros">Outros</option>
+            {identificacao === "sim" && (
+              <>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2"
+                  placeholder="Seu nome"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                />
+                <input
+                  type="email"
+                  className="w-full border rounded p-2"
+                  placeholder="Seu e-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </>
+            )}
+            <select
+              className="w-full border rounded p-2"
+              value={tipo}
+              onChange={(e) => setTipo(e.target.value)}
+              required
+            >
+              <option value="">Tipo de denúncia</option>
+              <option value="assédio">Assédio</option>
+              <option value="fraude">Fraude</option>
+              <option value="conduta">Má conduta</option>
+              <option value="outra">Outra</option>
             </select>
-          </div>
+            <textarea
+              className="w-full border rounded p-2"
+              placeholder="Descreva o ocorrido com detalhes..."
+              rows={4}
+              value={relato}
+              onChange={(e) => setRelato(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              className="w-full border rounded p-2"
+              placeholder="dd/mm/aaaa"
+              value={data}
+              onChange={(e) => setData(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              className="w-full border rounded p-2"
+              placeholder="Local do ocorrido"
+              value={local}
+              onChange={(e) => setLocal(e.target.value)}
+              required
+            />
+            <label className="flex items-center space-x-2 text-sm">
+              <input
+                type="checkbox"
+                checked={confirmacao}
+                onChange={(e) => setConfirmacao(e.target.checked)}
+                required
+              />
+              <span>
+                Declaro que este relato é verdadeiro e baseado em minha experiência.
+              </span>
+            </label>
+            <button
+              type="submit"
+              className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded"
+            >
+              Enviar denúncia
+            </button>
+          </form>
+        </div>
+      </section>
 
-          <textarea name="relato" value={denuncia.relato} rows={5} placeholder="Descreva o ocorrido com detalhes..." className="w-full border p-2 rounded" onChange={handleChange}></textarea>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="date" name="data" value={denuncia.data} className="border p-2 rounded w-full" onChange={handleChange} />
-            <input type="text" name="local" value={denuncia.local} placeholder="Local do ocorrido" className="border p-2 rounded w-full" onChange={handleChange} />
-          </div>
-
-          <div className="flex items-center">
-            <input type="checkbox" required className="mr-2" />
-            <span className="text-sm">Declaro que este relato é verdadeiro e baseado em minha experiência.</span>
-          </div>
-
-          <button type="submit" disabled={loading} className="bg-blue-600 text-white px-6 py-2 rounded-xl shadow hover:bg-blue-700">
-            {loading ? 'Enviando...' : 'Enviar denúncia'}
-          </button>
-        </form>
-
-        <p className="mt-6 text-xs text-gray-500 text-center">Powered by InCorp Diretiva</p>
-      </div>
+      {/* RODAPÉ */}
+      <footer className="text-center text-xs text-gray-500 py-6">
+        Desenvolvido por InCorp Diretiva
+      </footer>
     </div>
   );
 }
-// Último ajuste: forçar rebuild limpo
