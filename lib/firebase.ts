@@ -11,10 +11,7 @@ const firebaseConfig = {
     appId: "1:285405639622:web:656284e901c441675db8c7"
   };
 
-// Inicializa o Firebase com as configurações do seu projeto
-const app = initializeApp(firebaseConfig);
-
-// Exporta o banco de dados Firestore para uso no projeto
-const db = getFirestore(app);
-
-export { db };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  
+  export { db };
