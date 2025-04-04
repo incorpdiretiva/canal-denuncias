@@ -1,10 +1,10 @@
 // app/layout.tsx
 
-import "../styles/globals.css"; // Importa Tailwind
+import "../styles/globals.css"; // ISSO É FUNDAMENTAL
 
 export const metadata = {
   title: "Canal Seguro de Denúncias",
-  description: "Relate de forma anônima e segura",
+  description: "Sistema seguro e independente para recebimento de relatos.",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body className="bg-white text-gray-900">{children}</body>
     </html>
   );
 }
