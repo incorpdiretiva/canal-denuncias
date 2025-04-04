@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Head from 'next/head';
-import { db } from '../lib/firebase';
+import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
 export default function CanalSeguro() {
