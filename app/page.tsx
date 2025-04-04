@@ -132,3 +132,4 @@ export default function CanalSeguro() {
     </div>
   );
 }
+// Último ajuste: forçar rebuild limpo
