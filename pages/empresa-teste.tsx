@@ -1,3 +1,4 @@
+// pages/empresa-teste.tsx
 import { useState } from 'react';
 import Head from 'next/head';
 import { db } from '../lib/firebase';
