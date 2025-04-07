@@ -1,6 +1,6 @@
 // app/layout.tsx
 
-import "../styles/globals.css"; // ISSO É FUNDAMENTAL
+import "../styles/globals.css";
 
 export const metadata = {
   title: "Canal Seguro de Denúncias",
